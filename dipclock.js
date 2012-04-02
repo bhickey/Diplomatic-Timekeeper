@@ -141,10 +141,11 @@
   DipClock.prototype.draw = function() {
     if (!this.isWriting()) {
       $('#dip_season').text(this.season.name);
+      $('#dip_year').text(this.year);
     } else {
-      $('#dip_season').html(this.season.name + " &#x2014; Writing");
+      $('#dip_season').text("Writing");
+      $('#dip_year').html(this.season.name + " &#x2014 " + this.year);
     }
-    $('#dip_year').text(this.year);
 
     if (!this.isWaiting()) {
       $('#dip_time')
