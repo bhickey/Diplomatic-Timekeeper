@@ -228,7 +228,7 @@
   };
 
   DCBuilder.prototype.setYear = function(year) {
-   this.year = year;
+   this.year = Number(year);
    return this;
   };
 
