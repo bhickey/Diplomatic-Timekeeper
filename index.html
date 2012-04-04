@@ -20,7 +20,7 @@
     clock.draw();
     clock.run();
     $('#dip_season').css('font-size','1000%'); 
-    $('#dip_year').css('font-size','500%'); 
+    $('#dip_year').css('font-size','750%'); 
     $('#dip_time').css('font-size','2000%'); 
     $('body').css('font-size', '1000px');
     $('#update').click(function() {clock.updateLimits();}); 
@@ -38,6 +38,7 @@
     $('#fwd10').click(function(){clock.nudge(-10);});
     $('#fwd60').click(function(){clock.nudge(-60);});
     $('body').append('<div id="controls" />');
+    $('#controls').css('float','right');
     $('#controls').append('<input id="spring" value="' + clock.spring / (60 * 1000) +'"></input><input id="fall" value="' + clock.fall / (60 * 1000) + '"></input><input type="button" value="Update" id="update"></button>');
     $('#controls').append('<input type="button" id="toggle" value="Toggle"/>');
     $('#toggle').click(function(){

@@ -225,7 +225,6 @@
       this.curr_writing -= interval;
     }
 
-    console.log(this.curr_writing);
     if (this.time <= 0 && this.curr_writing <= 0) {
       var underflow = this.time + this.curr_writing;
       if (this.curr_writing <= 0) {
