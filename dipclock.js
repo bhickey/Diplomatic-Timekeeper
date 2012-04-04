@@ -205,6 +205,12 @@
     return this.running;
   };
 
+  DipClock.prototype.nudge = function(seconds) {
+    this.time += seconds * 1000;
+    this.decrement(0);
+    this.draw();
+  };
+
   DipClock.prototype.decrement = function(interval) {
     if (!this.isRunning()) {
       return;

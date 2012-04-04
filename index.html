@@ -23,13 +23,26 @@
     $('#dip_year').css('font-size','500%'); 
     $('#dip_time').css('font-size','2000%'); 
     $('body').css('font-size', '1000px');
-    $('body').append('<span id="shibboleth">' + Math.floor(Math.random() * 4294967296) + '</span>');
-    $('body').append('<input id="spring" value="' + clock.spring / (60 * 1000) +'"></input><input id="fall" value="' + clock.fall / (60 * 1000) + '"></input><input type="button" value="Update" id="update"></button>');
     $('#update').click(function() {clock.updateLimits();}); 
-    $('body').append('<input type="button" id="toggle" value="Toggle"/>')
-    $('#toggle').dblclick(function(){
+    $('body').append('<div id="nudge" />');
+    $('#nudge').append('<input type="button" id="rev60" value="<<<" />')
+               .append('<input type="button" id="rev10" value="<<" />')
+               .append('<input type="button" id="rev1" value="<" />')
+               .append('<input type="button" id="fwd1" value=">" />')
+               .append('<input type="button" id="fwd10" value=">>" />')
+               .append('<input type="button" id="fwd60" value=">>>>" />');
+    $('#rev60').click(function(){clock.nudge(60);});
+    $('#rev10').click(function(){clock.nudge(10);});
+    $('#rev1').click(function(){clock.nudge(1);});
+    $('#fwd1').click(function(){clock.nudge(-1);});
+    $('#fwd10').click(function(){clock.nudge(-10);});
+    $('#fwd60').click(function(){clock.nudge(-60);});
+    $('body').append('<div id="controls" />');
+    $('#controls').append('<input id="spring" value="' + clock.spring / (60 * 1000) +'"></input><input id="fall" value="' + clock.fall / (60 * 1000) + '"></input><input type="button" value="Update" id="update"></button>');
+    $('#controls').append('<input type="button" id="toggle" value="Toggle"/>');
+    $('#toggle').click(function(){
       clock.toggle();
-    }).css('float', 'right');
+    });
     scaleWhile();
     $(window).resize(function() { 
       $('body').css('font-size', '1000px');
