@@ -11,14 +11,23 @@
       .setSpring(form.spring.value)
       .setFall(form.spring.value)
       .setWriting(form.writing.value)
+      .setRandomEnd(form.random_end_min.value, form.random_end_max.value)
       .waitToAdjudicate(form.wait.checked)
       .build();
+    if (clock === false) {
+      return;
+    }
     clock.draw();
     clock.run();
     $('#dip_season').css('font-size','1000%'); 
     $('#dip_year').css('font-size','500%'); 
     $('#dip_time').css('font-size','2000%'); 
     $('body').css('font-size', '1000px');
+    $('body').append('<span id="shibboleth">' + Math.floor(Math.random() * 4294967296) + '</span>');
+    $('body').append('<input type="button" id="toggle" value="Toggle"/>')
+    $('#toggle').dblclick(function(){
+      clock.toggle();
+    }).css('float', 'right');
     scaleWhile();
     $(window).resize(function() { 
       $('body').css('font-size', '1000px');
@@ -66,7 +75,7 @@
       <option value="1923">1923</option>
       <option value="1924">1924</option>
       <option value="1925">1925</option>
-   <SELECT>
+   </SELECT>
   </DIV>
   <DIV id='dip_time'/>
   <span>Time Limits (minutes)</span>
@@ -79,8 +88,72 @@
   <br />
     <input name="wait" type="checkbox" />Wait for adjudication?</input>
   <br />
+   <SPAN id='random_end'>
+   End between 
+   <SELECT name="random_end_min">
+      <option value="--">--</option>
+      <option value="1902">1902</option>
+      <option value="1903">1903</option>
+      <option value="1904">1904</option>
+      <option value="1905">1905</option>
+      <option value="1906">1906</option>
+      <option value="1907">1907</option>
+      <option value="1908">1908</option>
+      <option value="1909">1909</option>
+      <option value="1910">1910</option>
+      <option value="1911">1911</option>
+      <option value="1912">1912</option>
+      <option value="1913">1913</option>
+      <option value="1914">1914</option>
+      <option value="1915">1915</option>
+      <option value="1916">1916</option>
+      <option value="1917">1917</option>
+      <option value="1918">1918</option>
+      <option value="1919">1919</option>
+      <option value="1920">1920</option>
+      <option value="1921">1921</option>
+      <option value="1922">1922</option>
+      <option value="1923">1923</option>
+      <option value="1924">1924</option>
+      <option value="1925">1925</option>
+   </SELECT>
+   and
+   <SELECT name="random_end_max">
+      <option value="--">--</option>
+      <option value="1902">1902</option>
+      <option value="1903">1903</option>
+      <option value="1904">1904</option>
+      <option value="1905">1905</option>
+      <option value="1906">1906</option>
+      <option value="1907">1907</option>
+      <option value="1908">1908</option>
+      <option value="1909">1909</option>
+      <option value="1910">1910</option>
+      <option value="1911">1911</option>
+      <option value="1912">1912</option>
+      <option value="1913">1913</option>
+      <option value="1914">1914</option>
+      <option value="1915">1915</option>
+      <option value="1916">1916</option>
+      <option value="1917">1917</option>
+      <option value="1918">1918</option>
+      <option value="1919">1919</option>
+      <option value="1920">1920</option>
+      <option value="1921">1921</option>
+      <option value="1922">1922</option>
+      <option value="1923">1923</option>
+      <option value="1924">1924</option>
+      <option value="1925">1925</option>
+   </SELECT>
+   
+
+   </SPAN>
+   </br>
+   </br>
     <input type="button" name="button" onClick="makeClock(this.form)" value="Start" />
-    </DIV>
+  </DIV>
+  
+
   </FORM>
  
 </BODY>

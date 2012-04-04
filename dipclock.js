@@ -8,7 +8,7 @@
     WINTER : {value: 3, name: "Winter", code: "W" }
   };
 
-  var DipClock = function(year, season, spring, fall, writing, wait) {
+  var DipClock = function(year, season, spring, fall, writing, wait, end_year) {
      this.running = false;
      this.year = year;
      this.season = season;
@@ -16,8 +16,14 @@
      this.fall = fall;
      this.writing = writing;
      this.wait = wait;
+     this.end_year = end_year;
      this.resetClock();
      this.init();
+     this.pauseCount = 0;
+  };
+
+  DipClock.prototype.isOver = function() {
+    return this.year >= this.end_year;
   };
 
   DipClock.prototype.resetClock = function() {
@@ -208,6 +214,7 @@
       this.curr_writing -= interval;
     }
 
+    console.log(this.curr_writing);
     if (this.time <= 0 && this.curr_writing <= 0) {
       var underflow = this.time + this.curr_writing;
       if (this.curr_writing <= 0) {
@@ -216,7 +223,17 @@
         this.time += underflow;
       }
     }
+
     this.draw();
+    if (this.isOver()) {
+      this.pause();
+      this.gameOver();
+    }
+  };
+
+  DipClock.prototype.gameOver = function() {
+    $('#dip_time').text("End");
+    document.title = "End";
   };
 
   DipClock.prototype.run = function() {
@@ -230,13 +247,32 @@
     this.running = false;
   };
 
+  DipClock.prototype.toggle = function() {
+    if (this.running) {
+      this.pauseCount += 1;
+      this.pause();
+      $('#toggle').attr("value", "Toggle [" + this.pauseCount + "]");
+      $('body').css('background','#333');
+    } else {
+      this.run();
+      $('body').css('background','#ccc');
+    }
+  };
+
    var DCBuilder = function DCBuilder() {
     this.year = 1901;
+    this.min_end = false;
+    this.max_end = false;
     this.season = SEASON.SPRING;
     this.spring = 0.05 * MILLIS_PER_MINUTE;
     this.fall = 0.05 * MILLIS_PER_MINUTE;
     this.writing = 0.1 * MILLIS_PER_MINUTE;
     this.wait = false;
+    this.broken = false;
+  };
+
+  DCBuilder.prototype.die = function() {
+    this.broken = true;
   };
 
   DCBuilder.prototype.setSeason = function(season) {
@@ -261,6 +297,20 @@
    return this;
   };
 
+  DCBuilder.prototype.setRandomEnd = function(year_min, year_max) {
+    if (year_min === '--' || year_max === '--') {
+      this.end_year = 100000;
+      return this;
+    }
+    var min = Number(year_min);
+    var max = Number(year_max);
+    if (min > max) {
+      this.die();
+    }
+    this.end_year = min + Math.floor(Math.random() * (max-min));
+    return this;
+  };
+
   DCBuilder.prototype.setSpring = function(spring) {
     spring = Number(spring);
     if (isNaN(spring)) {
@@ -282,7 +332,7 @@
   DCBuilder.prototype.setWriting = function(writing) {
     writing = Number(writing);
     if (isNaN(writing)) {
-      writingn = 0;
+      writing = 0;
     }
     this.writing = writing * MILLIS_PER_MINUTE;
     return this;
@@ -294,10 +344,18 @@
   };
 
   DCBuilder.prototype.build = function() {
+    if (this.broken === true) {
+      return false;
+    }
+
+    if (this.year >= this.end_year) {
+      return false;
+    }
     return new DipClock(
       this.year, this.season,
-      this.spring, this.fall, 
-      this.writing, this.wait);
+      this.spring, this.fall,
+      this.writing, this.wait,
+      this.end_year);
   };
 
   var isScrolling = function() {
