@@ -77,11 +77,19 @@
   };
   
   DipClock.prototype.getSeconds = function() {
-    return Math.floor(Math.floor(this.time % MILLIS_PER_MINUTE) / 1000);
+    return Math.floor(this.getSubSeconds());
   };
   
+  DipClock.prototype.getSubSeconds = function() {
+    return (Math.floor(this.time % MILLIS_PER_MINUTE) / 1000);
+  };
+
   DipClock.prototype.getWritingSeconds = function() {
-    return Math.floor(Math.floor(this.curr_writing % MILLIS_PER_MINUTE) / 1000);
+    return Math.floor(this.getWritingSubSeconds());
+  };
+
+  DipClock.prototype.getWritingSubSeconds = function() {
+    return Math.floor(this.curr_writing % MILLIS_PER_MINUTE) / 1000;
   };
   
   DipClock.prototype.isWaiting = function() {
@@ -108,22 +116,42 @@
     }
     return (mins  + ":" + secs);
   };
+  DipClock.prototype.sigmoid = function(t) {
+    return (1 / (1 + (Math.exp(-t))));
+  };
+
+  DipClock.prototype.makeColor = function(r,g,b,t) {
+    var s = this.sigmoid(t);
+    r *= s;
+    g *= s;
+    b *= s;
+    var col = "#" + this.asHex(r) + this.asHex(g) + this.asHex(b);
+    return col;
+  };
+
+  DipClock.prototype.asHex = function(x) {
+    var val = Math.floor(x * 256);
+    if (val < 16) {
+      return "0" + val.toString(16);
+    } else {
+      return val.toString(16);
+    }
+  };
 
   DipClock.prototype.getColor = function() {
     var secs = this.getSeconds();
-    if (this.getMinutes() > 0) {
-      return "#000";
-   }
-   if (this.isWriting()) {
-      return "#0000E0";
+    if (!this.isWriting()) {
+      if (this.getMinutes() > 0) {
+        return "#000";
+      }
+      var subsec = this.getSubSeconds();
+      return this.makeColor(1,0,0, -(subsec / 10 - 3));
     }
-   if (secs < 10) {
-      return "#FF0000";
+    if (this.getWritingMinutes() > 0) {
+      return "#0000FF";
     }
-    if (secs < 30) {
-      return "#800000";
-    }
-   return "#000";
+    var wsubsec = this.getWritingSubSeconds();
+    return this.makeColor(0,0,1, (wsubsec / 10 - 3));
   };
 
   DipClock.prototype.init = function() {
