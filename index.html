@@ -18,6 +18,12 @@
     $('#dip_season').css('font-size','1000%'); 
     $('#dip_year').css('font-size','500%'); 
     $('#dip_time').css('font-size','2000%'); 
+    $('body').css('font-size', '1000px');
+    scaleWhile();
+    $(window).resize(function() { 
+      $('body').css('font-size', '1000px');
+      scaleWhile(); 
+    });
   };
 
  </SCRIPT> 

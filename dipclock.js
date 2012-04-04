@@ -299,3 +299,17 @@
       this.spring, this.fall, 
       this.writing, this.wait);
   };
+
+  var isScrolling = function() {
+    var root = document.body;
+    return (root.scrollHeight > root.clientHeight || 
+            root.scrollWidth > root.clientWidth);
+  };
+
+  var scaleWhile = function() {
+    var height = 300;
+    while(isScrolling() && height > 0) {
+      height--;
+      $('body').css('font-size', height + "%");
+    }
+  };
