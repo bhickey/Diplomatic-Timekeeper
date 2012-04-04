@@ -26,9 +26,14 @@
     return this.year >= this.end_year;
   };
 
+  DipClock.prototype.updateLimits = function() {
+    this.spring = Number($('#spring').attr('value')) * MILLIS_PER_MINUTE;
+    this.fall = Number($('#fall').attr('value')) * MILLIS_PER_MINUTE;
+  };
+
   DipClock.prototype.resetClock = function() {
     this.curr_writing = this.writing;
-    if (this.season == SEASON.SPRING) {
+   if (this.season == SEASON.SPRING) {
       this.time = this.spring;
     }
     if (this.season == SEASON.FALL) {
