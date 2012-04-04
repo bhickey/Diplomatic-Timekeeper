@@ -146,7 +146,6 @@
       $('#dip_season').text("Writing");
       $('#dip_year').html(this.season.name + " &#x2014 " + this.year);
     }
-
     if (!this.isWaiting()) {
       $('#dip_time')
         .text(this.formatTime())
@@ -157,6 +156,7 @@
         .text("Go!")
         .css("color", "#000");
     }
+    document.title = $('#dip_season').text() + " " + $('#dip_year').text() + " " + $('#dip_time').text();
   };
 
   DipClock.prototype.isRunning = function() {
