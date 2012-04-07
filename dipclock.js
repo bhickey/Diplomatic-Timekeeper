@@ -4,27 +4,33 @@
  var LANGUAGE = {
     ENGLISH : {
       season: ["Spring", "Summer", "Fall", "Winter"],
-      cont: "Continue"
+      cont: "Continue",
+      end: "End"
     },
     FRENCH : {
       season: ["Printemps", "\u00C9t\u00E9", "Automne", "Hiver"],
-      cont: "Continuent"
+      cont: "Continuent",
+      end: "Fin"
     },
     GERMAN : {
       season: ["Fr\u00FChling", "Somner", "Herbst", "Winter"],
-      cont: "Weiter"
+      cont: "Weiter",
+      end: "Ende"
     },
     SPANISH : {
       season: ["Primavera", "Verano", "Oto\u00F1o", "Invierno"],
-      cont: "Siga"
+      cont: "Siga",
+      end: "Final"
     },
     ITALIAN : {
       season: ["la primavera", "l\u00B4estate","l\u00B4autunno","l\u00B4inverno"],
-      cont: "Continuare"
+      cont: "Continuare",
+      end: "Fine"
     },
     CHEF : {
       season: ["Bork", "Bork Bork", "B\u00F6rk", "Bork Bork!"],
-      cont: "Bork bork bork"
+      cont: "Bork bork bork",
+      end: "bork"
     }
  };
 
@@ -302,8 +308,8 @@
   };
 
   DipClock.prototype.gameOver = function() {
-    $('#dip_time').text("End");
-    document.title = "End";
+    $('#dip_time').text(this.language.end);
+    document.title = this.language.end;
   };
 
   DipClock.prototype.run = function() {
