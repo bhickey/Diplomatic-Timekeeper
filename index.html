@@ -10,7 +10,7 @@
       .setYear(form.year.value)
       .setSeason(form.year.value)
       .setSpring(form.spring.value)
-      .setFall(form.spring.value)
+      .setFall(form.fall.value)
       .setWriting(form.writing.value)
       .setRandomEnd(form.random_end_min.value, form.random_end_max.value)
       .setLanguage(form.language.value)
@@ -27,18 +27,26 @@
     $('body').css('font-size', '1000px');
     $('#update').click(function() {clock.updateLimits();}); 
     $('body').append('<div id="nudge" />');
-    $('#nudge').append('<input type="button" id="rev60" value="<<<" />')
+    $('#nudge')
+               .append('<input type="button" id="prev" value="<-" />')
+               .append('<input type="button" id="rev60" value="<<<" />')
                .append('<input type="button" id="rev10" value="<<" />')
                .append('<input type="button" id="rev1" value="<" />')
+               .append('<input type="button" id="reset" value="reset" />')
                .append('<input type="button" id="fwd1" value=">" />')
                .append('<input type="button" id="fwd10" value=">>" />')
-               .append('<input type="button" id="fwd60" value=">>>>" />');
+               .append('<input type="button" id="fwd60" value=">>>>" />')
+               .append('<input type="button" id="next" value="->" />');
+    $('#prev').click(function(){clock.nudge(60);});
     $('#rev60').click(function(){clock.nudge(60);});
     $('#rev10').click(function(){clock.nudge(10);});
     $('#rev1').click(function(){clock.nudge(1);});
+    $('#reset').click(function(){clock.resetClock();});
     $('#fwd1').click(function(){clock.nudge(-1);});
     $('#fwd10').click(function(){clock.nudge(-10);});
     $('#fwd60').click(function(){clock.nudge(-60);});
+    $('#next').click(function(){clock.advanceSeason(); clock.resetClock();});
+    $('#prev').click(function(){clock.rewindSeason(); clock.resetClock();});
     $('body').append('<div id="controls" />');
     $('#controls').css('float','right');
     $('#controls').append('<input id="spring" value="' + clock.spring / (60 * 1000) +'"></input><input id="fall" value="' + clock.fall / (60 * 1000) + '"></input><input type="button" value="Update" id="update"></button>');

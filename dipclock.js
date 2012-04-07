@@ -108,6 +108,37 @@
     return;
   };
 
+   DipClock.prototype.rewindSeason = function() {
+    if (this.season == SEASON.SUMMER) {
+      this.season = SEASON.SPRING;
+      return;
+    }
+    if (this.season == SEASON.WINTER) {
+      this.season = SEASON.FALL;
+      return;
+    }
+    if (this.season == SEASON.SPRING) {
+      if (this.wait === true) {
+        this.season = SEASON.WINTER;
+        this.pause();
+      } else {
+        this.season = SEASON.FALL;
+      }
+      this.year -= 1;
+      return;
+    }
+    if (this.season == SEASON.FALL) {
+      if (this.wait === true) {
+        this.season = SEASON.SUMMER;
+        this.pause();
+      } else {
+        this.season = SEASON.SPRING;
+      }
+    }
+    return;
+  };
+   
+
   DipClock.prototype.getMinutes = function() {
     return Math.floor(this.time / MILLIS_PER_MINUTE);
   };
