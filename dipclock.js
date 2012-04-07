@@ -1,14 +1,42 @@
   var MILLIS_PER_MINUTE = 60 * 1000;
   var INTERVAL = 250;
 
+ var LANGUAGE = {
+    ENGLISH : {
+      season: ["Spring", "Summer", "Fall", "Winter"],
+      cont: "Continue"
+    },
+    FRENCH : {
+      season: ["Printemps", "\u00C9t\u00E9", "Automne", "Hiver"],
+      cont: "Continuent"
+    },
+    GERMAN : {
+      season: ["Fr\u00FChling", "Somner", "Herbst", "Winter"],
+      cont: "Weiter"
+    },
+    SPANISH : {
+      season: ["Primavera", "Verano", "Oto\u00F1o", "Invierno"],
+      cont: "Siga"
+    },
+    ITALIAN : {
+      season: ["la primavera", "l\u00B4estate","l\u00B4autunno","l\u00B4inverno"],
+      cont: "Continuare"
+    },
+    CHEF : {
+      season: ["Bork", "Bork Bork", "B\u00F6rk", "Bork Bork!"],
+      cont: "Bork bork bork"
+    }
+ };
+
   var SEASON = {
-    SPRING : {value: 0, name: "Spring", code: "S"},
-    SUMMER : {value: 1, name: "Summer", code: "Sm"},
-    FALL   : {value: 2, name: "Fall", code: "F"},
-    WINTER : {value: 3, name: "Winter", code: "W" }
+    SPRING : {value: 0},
+    SUMMER : {value: 1},
+    FALL   : {value: 2},
+    WINTER : {value: 3}
   };
 
-  var DipClock = function(year, season, spring, fall, writing, wait, end_year) {
+  var DipClock = function(year, season, spring, fall, writing, wait, end_year, language) {
+     this.language = language;
      this.running = false;
      this.year = year;
      this.season = season;
@@ -17,6 +45,7 @@
      this.writing = writing;
      this.wait = wait;
      this.end_year = end_year;
+     this.language = language;
      this.resetClock();
      this.init();
      this.pauseCount = 0;
@@ -179,11 +208,11 @@
 
   DipClock.prototype.draw = function() {
     if (!this.isWriting()) {
-      $('#dip_season').text(this.season.name);
+      $('#dip_season').text(this.language.season[this.season.value]);
       $('#dip_year').text(this.year);
     } else {
       $('#dip_season').text("Writing");
-      $('#dip_year').html(this.season.name + " &#x2014 " + this.year);
+      $('#dip_year').html(this.language.season[this.season.value] + " &#x2014 " + this.year);
     }
     if (!this.isWaiting()) {
       $('#dip_time')
@@ -192,7 +221,7 @@
     } else {
       var that = this;
       $('#dip_time')
-        .text("Go!")
+        .text(this.language.cont)
         .css("color", "#000");
     }
     document.title = $('#dip_season').text() + " " + $('#dip_year').text() + " " + $('#dip_time').text();
@@ -348,6 +377,33 @@
     return this;
   };
 
+  DCBuilder.prototype.setLanguage = function(language) {
+    language = language.toLowerCase();
+    switch(language) {
+      case "english":
+        this.language = LANGUAGE.ENGLISH;
+        return this;
+      case "french":
+        this.language = LANGUAGE.FRENCH;
+        return this;
+      case "german":
+        this.language = LANGUAGE.GERMAN;
+        return this;
+      case "spanish":
+        this.language = LANGUAGE.SPANISH;
+        return this;
+      case "italian":
+        this.language = LANGUAGE.ITALIAN;
+        return this;
+      case "chef":
+        this.language = LANGUAGE.CHEF;
+        return this;
+      default:
+        this.broken = true;
+        return this;
+    }
+  };
+
   DCBuilder.prototype.waitToAdjudicate = function(wait) {
     this.wait = wait;
     return this;
@@ -365,7 +421,7 @@
       this.year, this.season,
       this.spring, this.fall,
       this.writing, this.wait,
-      this.end_year);
+      this.end_year, this.language);
   };
 
   var isScrolling = function() {

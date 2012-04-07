@@ -2,6 +2,7 @@
 <HEAD>
   <TITLE>Diplomatic Timekeeper</TITLE>
   <SCRIPT SRC="jquery-1.7.2.min.js"></SCRIPT>
+  <SCRIPT SRC="smartresize.js"></SCRIPT>
   <SCRIPT SRC="dipclock.js"></SCRIPT>
   <SCRIPT type="text/javascript">
   function makeClock (form) {
@@ -12,6 +13,7 @@
       .setFall(form.spring.value)
       .setWriting(form.writing.value)
       .setRandomEnd(form.random_end_min.value, form.random_end_max.value)
+      .setLanguage(form.language.value)
       .waitToAdjudicate(form.wait.checked)
       .build();
     if (clock === false) {
@@ -45,12 +47,11 @@
       clock.toggle();
     });
     scaleWhile();
-    $(window).resize(function() { 
+    $(window).smartresize(function() { 
       $('body').css('font-size', '1000px');
       scaleWhile(); 
     });
   };
-
  </SCRIPT> 
  <link rel="stylesheet" type="text/css" href="style.css" />
 </HEAD>
@@ -161,10 +162,18 @@
       <option value="1924">1924</option>
       <option value="1925">1925</option>
    </SELECT>
-   
-
    </SPAN>
-   </br>
+   <DIV>
+     Language:
+     <SELECT name="language">
+       <option value="english">English</option>
+       <option value="french">Fran&ccedil;ais</option>
+       <option value="german">Deutsch</option>
+       <option value="spanish">Espa&ntilde;ol</option>
+       <option value="italian">Italiano</option>
+       <option value="chef">Swedish Chef</option>
+     </SELECT>
+  </DIV>
    </br>
     <input type="button" name="button" onClick="makeClock(this.form)" value="Start" />
   </DIV>
