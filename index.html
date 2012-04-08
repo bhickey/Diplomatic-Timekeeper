@@ -45,8 +45,8 @@
     $('#fwd1').click(function(){clock.nudge(-1);});
     $('#fwd10').click(function(){clock.nudge(-10);});
     $('#fwd60').click(function(){clock.nudge(-60);});
-    $('#next').click(function(){clock.advanceSeason(); clock.resetClock(); clock.decrement(0); clock.draw(); });
-    $('#prev').click(function(){clock.rewindSeason(); clock.resetClock(); clock.decrement(0); clock.draw(); });
+    $('#next').click(function(){clock.advanceSeason(); clock.resetClock(); clock.draw(); clock.maybeStart(); });
+    $('#prev').click(function(){clock.rewindSeason(); clock.resetClock(); clock.draw(); clock.maybeStart(); });
     $('body').append('<div id="controls" />');
     $('#controls').css('float','right');
     $('#controls').append('<input id="spring" value="' + clock.spring / (60 * 1000) +'"></input><input id="fall" value="' + clock.fall / (60 * 1000) + '"></input><input type="button" value="Update" id="update"></button>');

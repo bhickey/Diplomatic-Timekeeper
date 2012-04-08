@@ -258,8 +258,8 @@
     } else {
       var that = this;
       $('#dip_time')
-        .html("<button value='click me'>" + this.language.cont + "</button>")
-        .css("color", "#000");
+        .html("<input type='submit' value='" + this.language.cont + "'></input>")
+        .css("border","0px");
     }
     document.title = $('#dip_season').text() + " " + $('#dip_year').text() + " " + $('#dip_time').text();
   };
@@ -332,6 +332,12 @@
     } else {
       this.run();
       $('body').css('background','#ccc');
+    }
+  };
+
+  DipClock.prototype.maybeStart = function() {
+    if (this.season == SEASON.SPRING || this.season == SEASON.FALL) {
+      this.run();
     }
   };
 
