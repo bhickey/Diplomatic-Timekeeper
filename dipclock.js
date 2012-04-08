@@ -9,7 +9,7 @@
     },
     FRENCH : {
       season: ["Printemps", "\u00C9t\u00E9", "Automne", "Hiver"],
-      cont: "Continuent",
+      cont: "Continuer",
       end: "Fin"
     },
     GERMAN : {
@@ -258,7 +258,7 @@
     } else {
       var that = this;
       $('#dip_time')
-        .text(this.language.cont)
+        .html("<button value='click me'>" + this.language.cont + "</button>")
         .css("color", "#000");
     }
     document.title = $('#dip_season').text() + " " + $('#dip_year').text() + " " + $('#dip_time').text();

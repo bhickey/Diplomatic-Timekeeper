@@ -3,6 +3,22 @@
   background: #ccc;
 }
 
+#nudge {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+}
+
+#controls {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
+
+#dip_season {
+  margin-top: 10px;
+}
+
 #spring {
   width: 35px;
 }
@@ -10,3 +26,11 @@
  #fall {
   width: 35px;
 } 
+
+input {
+  border: 0px;
+}
+
+input:hover {
+  background: #ee0;
+}
