@@ -164,7 +164,6 @@ DipClock.prototype.advanceSeason = function() {
   }
   return;
 };
- 
 
 DipClock.prototype.getMinutes = function() {
   return Math.floor(this.time / MILLIS_PER_MINUTE);
@@ -254,6 +253,7 @@ DipClock.prototype.getColor = function() {
 
 DipClock.prototype.init = function() {
    var that = this;
+   this.runner = false;
    $('#dip_time').click(function() {
      if (that.isWaiting()) {
         that.advanceSeason();
@@ -334,7 +334,7 @@ DipClock.prototype.gameOver = function() {
 };
 
 DipClock.prototype.run = function() {
-  if (this.running === false) {
+  if (this.running === false && this.runner === false) {
     var that = this;
     this.running = true;
     this.runner = setInterval(function() { that.decrement(INTERVAL); }, INTERVAL);
@@ -343,6 +343,7 @@ DipClock.prototype.run = function() {
 
 DipClock.prototype.pause = function() {
   clearInterval(this.runner);
+  this.runner = false;
   this.running = false;
 };
 
