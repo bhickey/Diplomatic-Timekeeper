@@ -334,9 +334,11 @@ DipClock.prototype.gameOver = function() {
 };
 
 DipClock.prototype.run = function() {
-  var that = this;
-  this.running = true;
-  this.runner = setInterval(function() { that.decrement(INTERVAL); }, INTERVAL);
+  if (this.running === false) {
+    var that = this;
+    this.running = true;
+    this.runner = setInterval(function() { that.decrement(INTERVAL); }, INTERVAL);
+  }
 };
 
 DipClock.prototype.pause = function() {
