@@ -90,13 +90,17 @@ var DipClock = function(year, season, spring, fall, writing, wait, sound, end_ye
    this.resetClock();
    this.init();
    this.pauseCount = 0;
+   this.prefetch();
+};
 
-   if (sound === true) {
+DipClock.prototype.prefetch = function() {
+    if (this.sound === true) {
      for (var key in SOUNDS) {
        SOUNDS[key].file.load();
+       SOUNDS[key].limit += 1000;
      }
    }
-};
+}
 
 DipClock.prototype.isOver = function() {
   return this.year >= this.end_year;
