@@ -93,7 +93,6 @@ var DipClock = function(year, season, spring, fall, writing, wait, sound, end_ye
 
    if (sound === true) {
      for (var key in SOUNDS) {
-       console.log(SOUNDS[key]);
        SOUNDS[key].file.load();
      }
    }
@@ -364,7 +363,6 @@ DipClock.prototype.decrement = function(interval) {
     var sound = SOUNDS[key];
     var limit = sound.limit;
     if (before > limit && after <= limit) {
-      console.log("Want to play " + sound.file);
       sound.file.currentTime=0;
       sound.file.play();
     }
