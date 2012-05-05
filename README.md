@@ -1,7 +1,8 @@
 Diplomatic Timekeeper
 =====================
 Yet another clock for Diplomacy.
-Written in JavaScript using jQuery.
+Written in JavaScript using jQuery and HTML5.
+Tested under Firefox 12.
 
 Features
 --------
