@@ -90,6 +90,13 @@ var DipClock = function(year, season, spring, fall, writing, wait, sound, end_ye
    this.resetClock();
    this.init();
    this.pauseCount = 0;
+
+   if (sound === true) {
+     for (var key in SOUNDS) {
+       console.log(SOUNDS[key]);
+       SOUNDS[key].file.load();
+     }
+   }
 };
 
 DipClock.prototype.isOver = function() {
@@ -358,8 +365,8 @@ DipClock.prototype.decrement = function(interval) {
     var limit = sound.limit;
     if (before > limit && after <= limit) {
       console.log("Want to play " + sound.file);
-      sound[sound].file.currentTime=0;
-      sound[sound].file.play();
+      sound.file.currentTime=0;
+      sound.file.play();
     }
   }
 };
