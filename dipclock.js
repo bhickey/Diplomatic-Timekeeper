@@ -1,6 +1,6 @@
 /* Copyright (c) 2012 Brendan Hickey
  * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
+ * copy of this software and associated documentation ids (the "Software"),
  * to deal in the Software without restriction, including without limitation
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
  * and/or sell copies of the Software, and to permit persons to whom the
@@ -21,6 +21,19 @@
 
 var MILLIS_PER_MINUTE = 60 * 1000;
 var INTERVAL = 250;
+var SOUNDS = {
+    TEN_SEC : { limit: 10 * 1000, file: new Audio("sounds/10SECCDN.ogg")},
+    FIFTEEN_SEC : { limit: 15*1000, file: new Audio("sounds/15SEC.ogg")},
+    THIRTY_SEC : { limit: 30*1000, file: new Audio("sounds/30SEC.ogg")},
+    FORTY_FIVE_SEC : { limit: 45*1000, file: new Audio("sounds/45SEC.ogg")},
+    ONE_MIN : { limit: MILLIS_PER_MINUTE, file: new Audio("sounds/1MIN.ogg")},
+    TWO_MIN : { limit: 2*MILLIS_PER_MINUTE, file: new Audio("sounds/2MIN.ogg")},
+    FIVE_MIN : { limit: 5*MILLIS_PER_MINUTE, file: new Audio("sounds/5MIN.ogg")},
+    TEN_MIN : { limit: 10*MILLIS_PER_MINUTE, file: new Audio("sounds/10MIN.ogg")},
+    FIFTEEN_MIN : { limit: 15*MILLIS_PER_MINUTE, file: new Audio("sounds/15MIN.ogg")},
+    TWENTY_MIN : { limit: 20*MILLIS_PER_MINUTE, file: new Audio("sounds/20MIN.ogg")},
+    TWENTYFIVE_MIN : { limit: 25*MILLIS_PER_MINUTE, file: new Audio("sounds/25.ogg")}
+  };
 
 var LANGUAGE = {
   ENGLISH : {
@@ -294,9 +307,12 @@ DipClock.prototype.isRunning = function() {
 };
 
 DipClock.prototype.nudge = function(seconds) {
+  var s = this.sound;
+  this.sound = false;
   this.time += seconds * 1000;
   this.decrement(0);
   this.draw();
+  this.sound = s;
 };
 
 DipClock.prototype.decrement = function(interval) {
@@ -334,29 +350,20 @@ DipClock.prototype.decrement = function(interval) {
 };
 
  DipClock.prototype.maybeSound = function(before, after) {
-  var sounds = {
-    TEN_SEC : { limit: 10 * 1000, file: "10SECCND.ogg"},
-    FIFTEEN_SEC : { limit: 15*1000, file: "15SEC.ogg"},
-    THIRTY_SEC : { limit: 30*1000, file: "30SEC.ogg"},
-    FORTY_FIVE_SEC : { limit: 45*1000, file: "45SEC.ogg"},
-    ONE_MIN : { limit: MILLIS_PER_MINUTE, file: "1MIN.ogg"},
-    TWO_MIN : { limit: 2*MILLIS_PER_MINUTE, file: "2MINS.ogg"},
-    FIVE_MIN : { limit: 5*MILLIS_PER_MINUTE, file: "5MINS.ogg"},
-    TEN_MIN : { limit: 10*MILLIS_PER_MINUTE, file: "10MINS.ogg"},
-    FIFTEEN_MIN : { limit: 15*MILLIS_PER_MINUTE, file: "15MINS.ogg"},
-    TWENTY_MIN : { limit: 20*MILLIS_PER_MINUTE, file: "20MINS.ogg"},
-    TWENTYFIVE_MIN : { limit: 25*MILLIS_PER_MINUTE, file: "25.ogg"}
-  };
-  for (var sound in sounds) {
-    var limit = sounds[sound].limit;
+ if (!this.sound) {
+    return;
+ }
+ for (var key in SOUNDS) {
+    var sound = SOUNDS[key];
+    var limit = sound.limit;
     if (before > limit && after <= limit) {
-      this.playSound("sounds/" + sounds[sound].file);
+      console.log("Want to play " + sound.file);
+      sound[sound].file.currentTime=0;
+      sound[sound].file.play();
     }
   }
 };
 
-DipClock.prototype.playSound = function(file) {
-};
 
 DipClock.prototype.gameOver = function() {
   $('#dip_time').text(this.language.end);
