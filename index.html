@@ -2,6 +2,9 @@
 <HEAD>
   <TITLE>Diplomatic Timekeeper</TITLE>
   <SCRIPT SRC="jquery-1.7.2.min.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="jquery.jplayer.min.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="jquery.mb.miniPlayer.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="jquery.metadata.js"></SCRIPT>
   <SCRIPT SRC="smartresize.js"></SCRIPT>
   <SCRIPT SRC="dipclock.js"></SCRIPT>
   <SCRIPT type="text/javascript">
@@ -14,6 +17,7 @@
       .setWriting(form.writing.value)
       .setRandomEnd(form.random_end_min.value, form.random_end_max.value)
       .setLanguage(form.language.value)
+      .setSound(form.sound.checked)
       .waitToAdjudicate(form.wait.checked)
       .build();
     if (clock === false) {
@@ -182,12 +186,18 @@
        <option value="chef">Swedish Chef</option>
      </SELECT>
   </DIV>
+  Sound: <input type="checkbox" name="sound" value="sound" checked="yes" />
    </br>
     <input type="button" name="button" onClick="makeClock(this.form)" value="Start" />
   </DIV>
   
 
   </FORM>
- 
+
+<audio autoplay="autoplay" controls="controls">
+  <source src="sounds/10SECCND.ogg" type="audio/ogg" />
+  Your browser does not support the audio element.
+</audio>
+
 </BODY>
 </HTML>

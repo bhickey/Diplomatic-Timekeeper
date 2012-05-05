@@ -62,7 +62,7 @@ var SEASON = {
   WINTER : {value: 3}
 };
 
-var DipClock = function(year, season, spring, fall, writing, wait, end_year, language) {
+var DipClock = function(year, season, spring, fall, writing, wait, sound, end_year, language) {
    this.language = language;
    this.running = false;
    this.year = year;
@@ -71,6 +71,7 @@ var DipClock = function(year, season, spring, fall, writing, wait, end_year, lan
    this.fall = fall;
    this.writing = writing;
    this.wait = wait;
+   this.sound = sound;
    this.end_year = end_year;
    this.language = language;
    this.resetClock();
@@ -302,6 +303,7 @@ DipClock.prototype.decrement = function(interval) {
   if (!this.isRunning()) {
     return;
   }
+  var beforeTime = this.time;
   if (this.time > 0) {
     this.time -= interval;
     if (this.time <= 0) {
@@ -320,12 +322,40 @@ DipClock.prototype.decrement = function(interval) {
       this.time += underflow;
     }
   }
+  var afterTime = this.time;
+
+    this.maybeSound(beforeTime, afterTime);
 
   this.draw();
   if (this.isOver()) {
     this.pause();
     this.gameOver();
   }
+};
+
+ DipClock.prototype.maybeSound = function(before, after) {
+  var sounds = {
+    TEN_SEC : { limit: 10 * 1000, file: "10SECCND.ogg"},
+    FIFTEEN_SEC : { limit: 15*1000, file: "15SEC.ogg"},
+    THIRTY_SEC : { limit: 30*1000, file: "30SEC.ogg"},
+    FORTY_FIVE_SEC : { limit: 45*1000, file: "45SEC.ogg"},
+    ONE_MIN : { limit: MILLIS_PER_MINUTE, file: "1MIN.ogg"},
+    TWO_MIN : { limit: 2*MILLIS_PER_MINUTE, file: "2MINS.ogg"},
+    FIVE_MIN : { limit: 5*MILLIS_PER_MINUTE, file: "5MINS.ogg"},
+    TEN_MIN : { limit: 10*MILLIS_PER_MINUTE, file: "10MINS.ogg"},
+    FIFTEEN_MIN : { limit: 15*MILLIS_PER_MINUTE, file: "15MINS.ogg"},
+    TWENTY_MIN : { limit: 20*MILLIS_PER_MINUTE, file: "20MINS.ogg"},
+    TWENTYFIVE_MIN : { limit: 25*MILLIS_PER_MINUTE, file: "25.ogg"}
+  };
+  for (var sound in sounds) {
+    var limit = sounds[sound].limit;
+    if (before > limit && after <= limit) {
+      this.playSound("sounds/" + sounds[sound].file);
+    }
+  }
+};
+
+DipClock.prototype.playSound = function(file) {
 };
 
 DipClock.prototype.gameOver = function() {
@@ -374,11 +404,17 @@ DipClock.prototype.maybeStart = function() {
   this.fall = 0.05 * MILLIS_PER_MINUTE;
   this.writing = 0.1 * MILLIS_PER_MINUTE;
   this.wait = false;
+  this.sound = true;
   this.broken = false;
 };
 
 DCBuilder.prototype.die = function() {
   this.broken = true;
+};
+
+DCBuilder.prototype.setSound = function(sound) {
+  this.sound = sound;
+  return this;
 };
 
 DCBuilder.prototype.setSeason = function(season) {
@@ -487,7 +523,7 @@ DCBuilder.prototype.build = function() {
   return new DipClock(
     this.year, this.season,
     this.spring, this.fall,
-    this.writing, this.wait,
+    this.writing, this.wait, this.sound,
     this.end_year, this.language);
 };
 
