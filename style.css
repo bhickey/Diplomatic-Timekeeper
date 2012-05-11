@@ -19,6 +19,10 @@
   display: inline;
 }
 
+#dip_time {
+  margin: 5px;
+}
+
 #dip_season {
   display: inline;
   margin-top: 10px;
