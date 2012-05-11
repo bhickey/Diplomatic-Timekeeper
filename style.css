@@ -15,7 +15,12 @@
   right: 5px;
 }
 
+#dip_year {
+  display: inline;
+}
+
 #dip_season {
+  display: inline;
   margin-top: 10px;
 }
 
