@@ -30,8 +30,8 @@ var SOUNDS = {
     TWO_MIN : { limit: 2*MILLIS_PER_MINUTE, file: new Audio("sounds/2MIN.ogg")},
     FIVE_MIN : { limit: 5*MILLIS_PER_MINUTE, file: new Audio("sounds/5MIN.ogg")},
     TEN_MIN : { limit: 10*MILLIS_PER_MINUTE, file: new Audio("sounds/10MIN.ogg")},
-    FIFTEEN_MIN : { limit: 15*MILLIS_PER_MINUTE, file: new Audio("sounds/15MIN.ogg")},
-    TWENTY_MIN : { limit: 20*MILLIS_PER_MINUTE, file: new Audio("sounds/20MIN.ogg")},
+    FIFTEEN_MIN : { limit: 15*MILLIS_PER_MINUTE, file: new Audio("sounds/15.ogg")},
+    TWENTY_MIN : { limit: 20*MILLIS_PER_MINUTE, file: new Audio("sounds/20.ogg")},
     TWENTYFIVE_MIN : { limit: 25*MILLIS_PER_MINUTE, file: new Audio("sounds/25.ogg")}
   };
 
@@ -416,9 +416,9 @@ DipClock.prototype.maybeStart = function() {
   this.min_end = false;
   this.max_end = false;
   this.season = SEASON.SPRING;
-  this.spring = 0.05 * MILLIS_PER_MINUTE;
-  this.fall = 0.05 * MILLIS_PER_MINUTE;
-  this.writing = 0.1 * MILLIS_PER_MINUTE;
+  this.spring = 17 * MILLIS_PER_MINUTE;
+  this.fall = 15 * MILLIS_PER_MINUTE;
+  this.writing = 0 * MILLIS_PER_MINUTE;
   this.wait = false;
   this.sound = true;
   this.broken = false;
@@ -472,7 +472,7 @@ DCBuilder.prototype.setRandomEnd = function(year_min, year_max) {
 DCBuilder.prototype.setSpring = function(spring) {
   spring = Number(spring);
   if (isNaN(spring)) {
-    spring = 12;
+    spring = 17;
   }
   this.spring = spring * MILLIS_PER_MINUTE;
   return this;
